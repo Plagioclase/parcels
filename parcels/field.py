@@ -1488,7 +1488,7 @@ class NetcdfFileBuffer(object):
         if len(data.shape) == 2:
             data = data[self.indices['lat'], self.indices['lon']]
         elif len(data.shape) == 3:
-            if self.indices['depth'][-1] == self.data_full_zdim-1 and data.shape[0] == self.data_full_zdim-1 and self.interp_method in ['bgrid_velocity', 'bgrid_w_velocity', 'bgrid_tracer']:
+            if self.indices['depth'][-1] == self.data_full_zdim-1 and data.shape[0] == self.data_full_zdim-1 and self.interp_method in ['bgrid_velocity', 'bgrid_w_velocity', 'bgrid_tracer', 'cgrid_velocity', 'cgrid_w_velocity', 'cgrid_tracer']:
                 # Add a bottom level of zeros for B-grid if missing in the data.
                 # The last level is unused by B-grid interpolator (U, V, tracer) but must be there
                 # to match Parcels data shape. for W, last level must be 0 for impermeability
@@ -1499,7 +1499,7 @@ class NetcdfFileBuffer(object):
             else:
                 data = data[ti, self.indices['lat'], self.indices['lon']]
         else:
-            if self.indices['depth'][-1] == self.data_full_zdim-1 and data.shape[1] == self.data_full_zdim-1 and self.interp_method in ['bgrid_velocity', 'bgrid_w_velocity', 'bgrid_tracer']:
+            if self.indices['depth'][-1] == self.data_full_zdim-1 and data.shape[1] == self.data_full_zdim-1 and self.interp_method in ['bgrid_velocity', 'bgrid_w_velocity', 'bgrid_tracer', 'cgrid_velocity', 'cgrid_w_velocity', 'cgrid_tracer']:
                 if(type(ti) in [list, range]):
                     data = np.concatenate((data[ti, self.indices['depth'][:-1], self.indices['lat'], self.indices['lon']],
                                            np.zeros((len(ti), 1, len(self.indices['lat']), len(self.indices['lon'])))), axis=1)
